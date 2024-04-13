@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.udemycurso.microservicios.app.cursos.models.entity.Curso;
+import com.udemycurso.microservicios.app.cursos.models.entity.CursoAlumno;
 import com.udemycurso.microservicios.app.cursos.services.CursoService;
 import com.udemycurso.microservicios.commonalumnos.models.entity.Alumno;
 import com.udemycurso.microservicios.commons.controllers.CommonController;
@@ -69,7 +70,10 @@ public class CursoController extends CommonController<Curso, CursoService>{
 		Curso cursoMod = c.get();
 		
 		alumnos.forEach(a -> {
-			cursoMod.addAlumno(a);
+			CursoAlumno ca = new CursoAlumno();
+			ca.setAlumnoId(a.getId());
+			ca.setCurso(cursoMod);
+			cursoMod.addCursoAlumno(ca);
 		});
 		
 		return ResponseEntity.status(HttpStatus.CREATED).body(this.service.save(cursoMod));
@@ -84,7 +88,10 @@ public class CursoController extends CommonController<Curso, CursoService>{
 		
 		Curso cursoMod = c.get();
 		
-		cursoMod.removeAlumno(alumno);
+		CursoAlumno ca = new CursoAlumno();
+		ca.setAlumnoId(alumno.getId());
+		
+		cursoMod.removeCursoAlumno(ca);
 		
 		return ResponseEntity.status(HttpStatus.CREATED).body(this.service.save(cursoMod));
 	}
