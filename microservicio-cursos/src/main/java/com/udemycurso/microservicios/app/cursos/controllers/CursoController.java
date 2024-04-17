@@ -11,6 +11,8 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -41,6 +43,59 @@ public class CursoController extends CommonController<Curso, CursoService>{
 		body.put("Cursos", service.findAll());
 		
 		return ResponseEntity.ok(body);
+	}
+	
+	@GetMapping
+	@Override
+	public ResponseEntity<?> listar(){
+		
+		List<Curso> cursos = ((List<Curso>) service.findAll()).stream().map(c -> {
+			c.getCursoAlumnos().forEach(ca -> {
+				Alumno a = new Alumno();
+				a.setId(ca.getAlumnoId());
+				c.addAlumno(a);
+			});
+			
+			return c;
+		}).collect(Collectors.toList());
+		
+		return ResponseEntity.ok().body(cursos);		
+	}
+	
+	@GetMapping({"/pagina"})
+	@Override
+	public ResponseEntity<?> listar(Pageable p){
+		
+		Page<Curso> pc = service.findAll(p).map(c -> {
+			c.getCursoAlumnos().forEach(ca -> {
+				Alumno a = new Alumno();
+				a.setId(ca.getAlumnoId());
+				c.addAlumno(a);
+			});
+			
+			return c;
+		});
+		
+		return ResponseEntity.ok().body(pc);		
+	}
+	
+	@GetMapping("/{id}")
+	@Override
+	public ResponseEntity<?> ver(@PathVariable Long id){
+		Optional<Curso> o = service.findById(id);
+		
+		if(o.isEmpty()) {
+			return ResponseEntity.notFound().build();
+		}
+		
+		Curso cursoBd = o.get();
+		
+		if (!cursoBd.getCursoAlumnos().isEmpty()) {
+			List<Long> alumnosIds = cursoBd.getCursoAlumnos().stream().map(ca -> ca.getAlumnoId()).collect(Collectors.toList());
+			cursoBd.setAlumnos((List<Alumno>) service.listarPorIds(alumnosIds));
+		}
+		
+		return ResponseEntity.ok(cursoBd);
 	}
 	
 	@PutMapping("/{id}")

@@ -1,6 +1,7 @@
 package com.udemycurso.microservicios.app.usuarios.controllers;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -26,6 +27,12 @@ import com.udemycurso.microservicios.commons.controllers.CommonController;
 
 @RestController
 public class AlumnoController extends CommonController<Alumno, AlumnoService> {
+	
+	@GetMapping("/listar-por-ids")
+	public ResponseEntity<?> listarPorIds(@RequestParam List<Long> ids){
+		Iterable<Alumno> a = service.findAllById(ids);
+		return ResponseEntity.ok(a);
+	}
 	
 	@GetMapping("/uploads/img/{id}")
 	public ResponseEntity<?> verFoto(@PathVariable Long id){

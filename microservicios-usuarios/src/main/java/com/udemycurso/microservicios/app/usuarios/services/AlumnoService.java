@@ -8,5 +8,6 @@ import com.udemycurso.microservicios.commons.services.CommonService;
 public interface AlumnoService extends CommonService<Alumno>{
 
 	public List<Alumno> findbyNombreOrApellido(String term);
+	public Iterable<Alumno> findAllById(Iterable<Long> ids);
 
 }
