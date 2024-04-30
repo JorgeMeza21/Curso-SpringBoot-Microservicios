@@ -36,5 +36,11 @@ public class CursoServiceImpl extends CommonServiceImpl<Curso, CursoRepository> 
 		return alumnoClient.listarPorIds(ids);
 	}
 
+	@Override
+	@Transactional
+	public void deleteCursoAlumnoById(Long id) {
+		repository.deleteCursoAlumnoById(id);
+	}
+
 	
 }

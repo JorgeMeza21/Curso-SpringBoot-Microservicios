@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -34,6 +35,12 @@ public class CursoController extends CommonController<Curso, CursoService>{
 
 	@Value("${config.test.loadbalancer}")
 	private String balanceadorTest;
+	
+	@DeleteMapping("/eliminar-cursoalumno/{id}")
+	public ResponseEntity<?> eliminarCursoAlumnoPorId(@PathVariable Long id) {
+		service.deleteCursoAlumnoById(id);
+		return ResponseEntity.noContent().build();
+	}
 	
 	@GetMapping("/balanceadorTest")
 	public ResponseEntity<?> testLoadBalancer() {
