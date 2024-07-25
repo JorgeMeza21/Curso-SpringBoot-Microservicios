@@ -41,6 +41,7 @@ public class Examen {
 	@OneToMany(mappedBy = "examen", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Pregunta> preguntas;
 	@NotNull
+	@JsonIgnoreProperties(value= {"handler", "hibernateLazyInitializer"})
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Asignatura asignatura;
 	

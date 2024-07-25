@@ -26,7 +26,7 @@ public class Asignatura {
 	@NotEmpty
 	private String nombre;
 	
-	@JsonIgnoreProperties(value = {"hijos"},allowSetters = true)
+	@JsonIgnoreProperties(value = {"hijos", "handler", "hibernateLazyInitializer"},allowSetters = true)
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Asignatura padre;
 	

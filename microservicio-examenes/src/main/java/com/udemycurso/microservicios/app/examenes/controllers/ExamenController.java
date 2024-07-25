@@ -1,5 +1,6 @@
 package com.udemycurso.microservicios.app.examenes.controllers;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.udemycurso.microservicios.app.examenes.services.ExamenService;
@@ -62,5 +64,10 @@ public class ExamenController extends CommonController<Examen, ExamenService>{
 	@GetMapping("/asignaturas")
 	public ResponseEntity<?> listarAsignaturas(){
 		return ResponseEntity.ok(service.findAllAsignatura());
+	}
+	
+	@GetMapping("/examenesIds-por-preguntaIds")
+	public ResponseEntity<?> buscarExamenesIdsPorPreguntaIds(@RequestParam List<Long> pregIds){
+		return ResponseEntity.ok(service.findExamenIdsByPreguntaIds(pregIds));
 	}
 }

@@ -9,5 +9,6 @@ import com.udemycurso.microservicios.commonsexamenes.models.entity.Examen;
 public interface ExamenService extends CommonService<Examen>{
 
 	public List<Examen> findbyName(String term);
-	public Iterable<Asignatura> findAllAsignatura(); 
+	public Iterable<Asignatura> findAllAsignatura();
+	public List<Long> findExamenIdsByPreguntaIds(List<Long> preguntaIds);
 }
