@@ -21,7 +21,7 @@ public class Respuesta {
 	
 	private Long alumnoId;
 
-	@Transient
+	//@Transient
 	private Pregunta pregunta;
 	
 	private Long preguntaId;

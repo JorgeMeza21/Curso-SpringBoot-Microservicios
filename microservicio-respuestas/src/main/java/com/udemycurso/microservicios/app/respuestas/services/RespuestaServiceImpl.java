@@ -30,7 +30,7 @@ public class RespuestaServiceImpl implements RespuestaService {
 	@Override
 	public Iterable<Respuesta> findByAlumnoByExamen(Long idAlumno, Long idExamen) {
 		//return respuestaRepo.findByAlumnoByExamen(idAlumno, idExamen);
-		Examen e = examenClient.obtenerExamenPorId(idExamen);
+		/*Examen e = examenClient.obtenerExamenPorId(idExamen);
 		
 		List<Pregunta> preguntas = e.getPreguntas();
 		List<Long> preguntaIds = preguntas.stream().map(p -> p.getId()).collect(Collectors.toList());
@@ -42,24 +42,30 @@ public class RespuestaServiceImpl implements RespuestaService {
 			});
 			
 			return r;
-		}).collect(Collectors.toList());
+		}).collect(Collectors.toList());*/
 		
-		return respuestas;
+		return respuestaRepo.findByAlumnoByExamen(idAlumno, idExamen);
 	}
 
 	@Override
 	public Iterable<Long> findExamenIdsConRespuestaByAlumno(Long idAlumno) {
 		//return respuestaRepo.findExamenIdsConRespuestaByAlumno(idAlumno);
 		
-		List<Respuesta> respuestas = (List<Respuesta>) respuestaRepo.findByAlumno(idAlumno);
+		/*List<Respuesta> respuestas = (List<Respuesta>) respuestaRepo.findByAlumno(idAlumno);
 		List<Long> examenesIds = Collections.emptyList();
 		
 		if (respuestas.size() > 0) {
 			List<Long> preguntaIds = respuestas.stream().map(r -> r.getPreguntaId()).collect(Collectors.toList());
 			examenesIds = (List<Long>) examenClient.buscarExamenesIdsPorPreguntaIds(preguntaIds);
-		}
+		}*/
 		
-		return examenesIds;
+		List<Respuesta> respuestas = (List<Respuesta>) respuestaRepo.findExamenIdsConRespuestaByAlumno(idAlumno);
+		List<Long> exaxmenIds = respuestas
+				.stream()
+				.map(r -> r.getPregunta().getExamen().getId())
+				.collect(Collectors.toList());
+		
+		return exaxmenIds;
 	}
 
 }

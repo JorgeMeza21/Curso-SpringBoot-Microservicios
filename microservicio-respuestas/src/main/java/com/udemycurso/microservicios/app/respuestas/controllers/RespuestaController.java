@@ -33,7 +33,7 @@ public class RespuestaController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(resp);
 	}
 	
-	@GetMapping("buscar/alumno/{idAlumno}/examen/{idExamen}")
+	@GetMapping("/buscar/alumno/{idAlumno}/examen/{idExamen}")
 	public ResponseEntity<?> buscarPorAlumnoPorExamen(@PathVariable Long idAlumno, @PathVariable Long idExamen){
 		return ResponseEntity.ok(respuestaService.findByAlumnoByExamen(idAlumno, idExamen));
 	}
